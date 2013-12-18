@@ -163,9 +163,11 @@ table 'vacation' and database 'postfix', table 'virtual_aliases'.
 It should not be able to access Roundcube's tables.
 
 For MySQL the following can be used:
+```SQL
 CREATE USER 'virtual_vacation'@'localhost' IDENTIFIED BY 'choose_a_password';
 GRANT UPDATE,INSERT,SELECT ON `postfix` . vacation TO 'virtual_vacation'@'localhost';
 GRANT DELETE,INSERT,SELECT ON `postfix` . virtual_aliases TO 'virtual_vacation'@'localhost';
+```
 
 If Roundcube's main DSN is somehow affected by an SQL injection bug,
 no damage can be done to the actual maildelivery.
@@ -183,16 +185,16 @@ This pseudo driver disables the Vacation tab for hosts that do not support Out o
 
 Writing a new driver
 --------------------
-1) Create relevant entries in config.ini. The name of array key must match the class name.
-3) Create lib/$driver.class.php
-3) Have your new driver extend VacationDriver
-4) Implement abstract public methods from base class: init(), setVacation(),_get()
+1. Create relevant entries in config.ini. The name of array key must match the class name.
+2. Create lib/$driver.class.php
+3. Have your new driver extend VacationDriver
+4. Implement abstract public methods from base class: init(), setVacation(),_get()
    You can access configuration settings using $this->cfg or $this->dotforward
    Form variables can be accessed directly using class properties, see save() method
-5) Write new private helper methods like is_active() if needed.
-6) Register the available options for this driver in VacationConfig.class.php
-7) Test it
-8) Submit a patch
+5. Write new private helper methods like is_active() if needed.
+6. Register the available options for this driver in VacationConfig.class.php
+7. Test it
+8. Submit a patch
 
 
 Troubleshooting
@@ -223,8 +225,14 @@ Credits
 - Rick Saul and Johnson Chow for testing
 
 
-Patches, feedback and suggestions
+patches, feedback and suggestions
 --------------------------------
-Please submit patches and suggestions by e-mail (jaspersl @ gmail . com).
-Project URL: https://sourceforge.net/projects/rcubevacation/
+Please submit patches and suggestions here in this github repository
+https://github.com/rplessl/roundcube-vacation-2.x
+
+or the the original author
+
+Please submit patches and suggestions by e-mail (jaspersl @ gmail . com). 
+Project URL: https://sourceforge.net/projects/rcubevacation/ 
 Feedback is always welcome.
+
