@@ -22,7 +22,7 @@ class DotForward {
         "envelop_sender"=>null,
         "keepcopy"=>false);
 
-// set options to be used with create()
+    // set options to be used with create()
     public function setOption($key, $value) {
         $this->options[$key] = $value;
     }
@@ -31,9 +31,9 @@ class DotForward {
         $this->options = array_merge($this->options, $cfgArr);
     }
 
-// Creates the content for the .forward file
+    // Creates the content for the .forward file
     public function create() {
-	$arrDotForward = array();
+	    $arrDotForward = array();
 
 
         // If keep copy is not enabled, do not use \username. 
@@ -74,7 +74,7 @@ class DotForward {
 
         } 
 
-	return join(",",$arrDotForward);
+	    return join(",",$arrDotForward);
         
     }
     

@@ -123,7 +123,7 @@ class vacation extends rcube_plugin {
         // Subject
         $field_id = 'vacation_subject';
         $input_autorespondersubject = new html_inputfield(array('name' => '_vacation_subject', 'id' => $field_id, 'size' => 90));
-        $out .= sprintf("<p><label for=\"%s\">%s</label>&nbsp;%s</p>\n",
+        $out .= sprintf("<p><label for=\"%s\">%s</label><br/>%s</p>\n",
                 $field_id,
                 rep_specialchars_output($this->gettext('autoreplysubject')),
                 $input_autorespondersubject->show($settings['subject']));
@@ -131,32 +131,32 @@ class vacation extends rcube_plugin {
         // Out of office body
         $field_id = 'vacation_body';
         $input_autoresponderbody = new html_textarea(array('name' => '_vacation_body', 'id' => $field_id, 'cols' => 88, 'rows' => 20));
-        $out .= sprintf("<p><label for=\"%s\">%s</label>&nbsp;%s</p>\n",
+        $out .= sprintf("<p><label for=\"%s\">%s</label><br/>%s</p>\n",
                 $field_id,
                 rep_specialchars_output($this->gettext('autoreplymessage')),
                 $input_autoresponderbody->show($settings['body']));
 
         /* We only use aliases for .forward and only if it's enabled in the config*/
         if ($this->v->useAliases()) {
-		$size = 0;
+            $size = 0;
 
-		// If there are no multiple identities, hide the button and add increase the size of the textfield
-		$hasMultipleIdentities = $this->v->vacation_aliases('buttoncheck');
-		if ($hasMultipleIdentities == '') $size = 15;
+            // If there are no multiple identities, hide the button and add increase the size of the textfield
+            $hasMultipleIdentities = $this->v->vacation_aliases('buttoncheck');
+            if ($hasMultipleIdentities == '') { $size = 15; }
 
-                $field_id = 'vacation_aliases';
-                $input_autoresponderalias = new html_inputfield(array('name' => '_vacation_aliases', 'id' => $field_id, 'size' => 75+$size));
-                $out .= '<p>' . $this->gettext('separate_alias') . '</p>';
+            $field_id = 'vacation_aliases';
+            $input_autoresponderalias = new html_inputfield(array('name' => '_vacation_aliases', 'id' => $field_id, 'size' => 75+$size));
+            $out .= '<p>' . $this->gettext('separate_alias') . '</p>';
 
             // Inputfield with button
-            $out .= sprintf('<p><label for="%s">%s</label>&nbsp;%s
-              ', $field_id, rep_specialchars_output($this->gettext('aliases')),
-				  $input_autoresponderalias->show($settings['aliases']));
-			if ($hasMultipleIdentities!='')
-				$out .= sprintf('<input type="button" id="aliaslink" class="button" value="%s"/>',
-			  rep_specialchars_output($this->gettext('aliasesbutton')));
-			$out .= "</p>";
-
+            $out .= sprintf('<p><label for="%s">%s</label>&nbsp;%s', 
+                $field_id, rep_specialchars_output($this->gettext('aliases')),
+                $input_autoresponderalias->show($settings['aliases']));
+			if ($hasMultipleIdentities!='') {
+			    $out .= sprintf('<input type="button" id="aliaslink" class="button" value="%s"/>',
+			    rep_specialchars_output($this->gettext('aliasesbutton')));		    
+            }    
+            $out .= "</p>";
         }
         $out .= '</fieldset><fieldset><legend>' . $this->gettext('forward') . '</legend>';
 
