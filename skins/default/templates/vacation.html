@@ -10,18 +10,34 @@
 
 <roundcube:include file="/includes/taskbar.html" />
 <roundcube:include file="/includes/header.html" />
+
+<div id="mainscreen" class="offset">
 <roundcube:include file="/includes/settingstabs.html" />
 
 
-<div id="pagecontent">
-    <form name="vacationform" action="./?_task=settings&_action=plugin.vacation-save" method="post">
+<div id="settings-right">
+<div class="iframebox">
+<div class="iframe floatingbuttons">
+<h1 class="boxtitle">Vacation</h1>
+
+<div id="preferences-details" class="boxcontent uibox" style="left: 10px">
+    <form name="vacationform" action="./?_task=settings&_action=plugin.vacation-save" method="post"
+          class="propform">
     <div id="prefs-details">
         <roundcube:object name="plugin.vacation_form" />
-        <roundcube:button command="plugin.vacation-save" type="input"
-            class="button mainaction" label="save" title="save" /><br/>
-        <p>&nbsp;</p>
+
+        <div class="footerleft formbuttons floating">
+	        <roundcube:button command="plugin.vacation-save" type="input"
+        	    class="button mainaction" label="save" title="save" /><br/>
+	        <p>&nbsp;</p>
         </div>
+    </div>
     </form>
+</div>
+</div>
+</div>
+</div>
+
 </div>
 
 </body>
