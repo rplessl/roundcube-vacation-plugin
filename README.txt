@@ -1,14 +1,9 @@
-roundcube-vacation-2.x
-======================
-
-vacation / out-of-office plugin for RoundCube
-
 About
 -----
 The vacation plugin allows mail to be forwarded and/or auto-replied with a
 custom subject / message body.
 Note that the actual auto-reply is done by a program such as /usr/bin/vacation
-, the virtual user aware vacation.pl or a Sieve script.
+,the virtual user aware vacation.pl or a Sieve script.
 
 
 Features
@@ -223,7 +218,7 @@ Credits
 - Rick Saul and Johnson Chow for testing
 
 
-Patches, feedback and suggestions
+Patches,feedback and suggestions
 --------------------------------
 Please submit patches and suggestions by e-mail (jaspersl @ gmail . com).
 Project URL: https://sourceforge.net/projects/rcubevacation/
