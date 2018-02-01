@@ -15,11 +15,8 @@ $labels['outofoffice'] = 'Abwesenheitsnotiz';
 $labels['separate_alias'] = 'Jede alias Adresse mit Komma trennen';
 $labels['separate_forward'] = 'Jede Weiterleitungs-Adresse mit Komma trennen';
 $labels['success_changed'] = 'Einstellungen erfolgreich gespeichert';
-$labels['vacation'] = 'Abwesenheitsassistent';
-// Button text
-$labels['aliasesbutton'] = 'Aliases abholen';
-// Messages
-//$messages = array();
-//$messages['autoresponder'] = 'Abwesenheit';
-//$messages['vacation'] = 'Abwesenheitsassistent';
+$labels['vacation'] = 'Abwesenheit';
+$messages = array();
+$messages['autoresponder'] = 'Abwesenheit';
+$messages['vacation'] = 'Abwesenheit';
 ?>

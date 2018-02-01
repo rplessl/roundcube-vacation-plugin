@@ -1,7 +1,6 @@
 <?php
 $labels = array();
 $labels['aliases'] = 'Aliases';
-$labels['aliases'] = 'Aliases';
 $labels['autoreply'] = 'Verzend auto-reply naar afzender?';
 $labels['autoreplybutton'] = 'Opslaan';
 $labels['autoreplymessage'] = 'Auto-reply bericht';

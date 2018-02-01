@@ -1,44 +1,29 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<title><roundcube:object name="pagetitle" /></title>
-<roundcube:include file="/includes/links.html" />
-<script type="text/javascript" src="/functions.js"></script>
-
+  <title><roundcube:object name="pagetitle" /></title>
+  <roundcube:include file="/includes/links.html" />
+  <script type="text/javascript" src="$skin_path/functions.js"></script>
 </head>
+
 <body>
+  <roundcube:include file="/includes/taskbar.html" />
+  <roundcube:include file="/includes/header.html" />
+  <div id="mainscreen" class="offset">
+  <roundcube:include file="/includes/settingstabs.html" />
 
-<roundcube:include file="/includes/taskbar.html" />
-<roundcube:include file="/includes/header.html" />
+  <div id="pluginbody"  class="uibox contentbox">
+    <h1 class="boxtitle">Távollét</h1>
+    <div id="preferences-details" class="boxcontent">
+      <form name="vacationform" action="./?_task=settings&amp;_action=plugin.vacation-save" method="post" class="propform">
+          <roundcube:object name="plugin.vacation_form" />
+          <roundcube:button command="plugin.vacation-save" type="input" class="button mainaction" label="save" title="save" /><br/>
+          <p>&nbsp;</p>
+      </form>
+  </div>
 
-<div id="mainscreen" class="offset">
-<roundcube:include file="/includes/settingstabs.html" />
-
-
-<div id="settings-right">
-<div class="iframebox">
-<div class="iframe floatingbuttons">
-<h1 class="boxtitle">Vacation</h1>
-
-<div id="preferences-details" class="boxcontent uibox" style="left: 10px">
-    <form name="vacationform" action="./?_task=settings&_action=plugin.vacation-save" method="post"
-          class="propform">
-    <div id="prefs-details">
-        <roundcube:object name="plugin.vacation_form" />
-
-        <div class="footerleft formbuttons floating">
-	        <roundcube:button command="plugin.vacation-save" type="input"
-        	    class="button mainaction" label="save" title="save" /><br/>
-	        <p>&nbsp;</p>
-        </div>
-    </div>
-    </form>
-</div>
-</div>
-</div>
-</div>
-
-</div>
-
+  <roundcube:include file="/includes/footer.html" />
+  </div>
 </body>
+
 </html>

@@ -11,6 +11,7 @@
  * @todo	See README.TXT
  *
  * Contributions by Johnson Chow
+ * Changes to work with Round Cube 1.2.4 and UTF-8 : neil77pl
  */
 
 
@@ -20,13 +21,13 @@ class SSHFTP extends VacationDriver {
 	private $conn = null;
 
 	public function init() {
-		$username = Q($this->user->data['username']);
+		$username = rcube::Q($this->user->data['username']);
 		$userpass = $this->rcmail->decrypt($_SESSION['password']);
 
 		$callback = array();
 				
 		if (! $this->conn = ssh2_connect($this->cfg['server'],22,null,$callback)) {
-			raise_error(array('code' => 601, 'type' => 'php', 'file' => __FILE__,
+			 rcube::raise_error(array('code' => 601, 'type' => 'php', 'file' => __FILE__,
                 'message' => sprintf("Vacation plugin: Cannot connect to the SSH-server '%s'",$this->cfg['server'])
 			),true, true);
 
@@ -34,7 +35,7 @@ class SSHFTP extends VacationDriver {
 		
 		// Supress error here
 		if (! @ssh2_auth_password($this->conn, $username,$userpass)) {
-			raise_error(array('code' => 601, 'type' => 'php', 'file' => __FILE__,
+			 rcube::raise_error(array('code' => 601, 'type' => 'php', 'file' => __FILE__,
                 'message' => sprintf("Vacation plugin: Cannot login to SSH-server '%s' with username: %s",$this->cfg['server'],$username)
 			),true, true);
 		}
@@ -56,6 +57,11 @@ class SSHFTP extends VacationDriver {
 		if ($dot_vacation_msg = $this->downloadfile($this->dotforward['message'])) {
 			$dot_vacation_msg = explode("\n",$dot_vacation_msg);
 			$vacArr['subject'] = str_replace('Subject: ','',$dot_vacation_msg[1]);
+			unset($dot_vacation_msg[2]);
+			unset($dot_vacation_msg[3]);
+			unset($dot_vacation_msg[4]);
+			$breaks = array("<br />","<br>","<br/>");
+			$dot_vacation_msg=str_ireplace($breaks, "\r\n",$dot_vacation_msg);
 			$vacArr['body'] = join("\n",array_slice($dot_vacation_msg,2));
 		}
                 
@@ -93,15 +99,16 @@ class SSHFTP extends VacationDriver {
 
 			// Create the .vacation.message file
 
-			$full_name = $this->identity['name'];
+			$full_name = iconv("UTF-8","ASCII//TRANSLIT",$this->identity['name']);
 
 			if (!empty($full_name)) {
 				$vacation_header = sprintf("From: %s <%s>\n",$full_name,$email);
 			} else {
 				$vacation_header = sprintf("From: %s\n",$email);
 			}
-			$vacation_header .= sprintf("Subject: %s\n\n",$this->subject);
-			$message = $vacation_header.$this->body;
+			$vacation_header .= sprintf("Subject: %s\n",$this->subject);
+			$vacation_header .= sprintf("MIME-Version: %s\nContent-Type: %s\nContent-Transfer-Encoding: %s\n\n","1.0","text/html; charset=\"UTF-8\"","8bit");
+			$message = $vacation_header.preg_replace('/\r\n?/', "<br/>",$this->body);
 			$this->uploadfile($message,$this->dotforward['message']);
 
 		}
@@ -163,7 +170,7 @@ class SSHFTP extends VacationDriver {
 
           if (! file_put_contents("ssh2.sftp://".$this->ftp.$remoteFile, $data))
                 {
-                    raise_error(array('code' => 601,'type' => 'php','file' => __FILE__,
+                     rcube::raise_error(array('code' => 601,'type' => 'php','file' => __FILE__,
                 'message' => "Vacation plugin: Cannot upload {$remoteFile}. Check permissions and/or server configuration"
 			),true, true);
                 }

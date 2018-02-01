@@ -15,12 +15,12 @@ class FTP extends VacationDriver {
 	private $ftp = false;
 
 	public function init() {
-		$username = Q($this->user->data['username']);
+		$username = rcube::Q($this->user->data['username']);
 		$userpass = $this->rcmail->decrypt($_SESSION['password']);
 
 		// 15 second time-out
 		if (! $this->ftp = ftp_connect($this->cfg['server'],21,15)) {
-			raise_error(array('code' => 601, 'type' => 'php', 'file' => __FILE__,
+			 rcube::raise_error(array('code' => 601, 'type' => 'php', 'file' => __FILE__,
                 'message' => sprintf("Vacation plugin: Cannot connect to the FTP-server '%s'",$this->cfg['server'])
 			),true, true);
 
@@ -28,7 +28,7 @@ class FTP extends VacationDriver {
 
 		// Supress error here
 		if (! @ftp_login($this->ftp, $username,$userpass)) {
-			raise_error(array(
+			 rcube::raise_error(array(
                 'code' => 601, 'type' => 'php','file' => __FILE__,
                 'message' => sprintf("Vacation plugin: Cannot login to FTP-server '%s' with username: %s",$this->cfg['server'],$username)
 			),true, true);
@@ -39,7 +39,7 @@ class FTP extends VacationDriver {
 
 		// Enable passive mode
 		if (isset($this->cfg['passive']) && !ftp_pasv($this->ftp, TRUE)) {
-			raise_error(array(
+			 rcube::raise_error(array(
                 'code' => 601,'type' => 'php','file' => __FILE__,
                 'message' => "Vacation plugin: Cannot enable PASV mode on {$this->cfg['server']}"
 			),true, true);
@@ -156,7 +156,7 @@ class FTP extends VacationDriver {
 		unlink($localFile);
 		if (! $result)
 		{
-			raise_error(array(
+			 rcube::raise_error(array(
                 'code' => 601,'type' => 'php', 'file' => __FILE__,
                 'message' => "Vacation plugin: Cannot upload {$remoteFile}. Check permissions and/or server configuration"
 			),true, true);
