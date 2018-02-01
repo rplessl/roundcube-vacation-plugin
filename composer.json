@@ -1,0 +1,34 @@
+{
+    "name": "gabtoth/vacation",
+    "type": "roundcube-plugin",
+    "description": "Vacation, out-of-office and forward feature for Roundcube",
+    "keywords": ["mail","vacation","forward"],
+    "homepage": "https://github.com/gabor-toth/roundcube-vacation-plugin",
+    "license": "GPL-3.0+",
+    "authors": [
+        {
+            "name": "Roman Plessl",
+            "homepage": "https://github.com/rplessl",
+            "role": "Author"
+        },
+        {
+            "name": "Gabor Toth",
+            "homepage": "https://github.com/gabor-toth",
+            "role": "Contributor"
+        }
+    ],
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://plugins.roundcube.net"
+        }
+    ],
+    "require": {
+        "roundcube/plugin-installer": ">=0.1.6"
+    },
+    "extra": {
+        "roundcube": {
+            "min-version": "1.3.0"
+        }
+    }
+}

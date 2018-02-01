@@ -7,14 +7,12 @@
   border: 1px solid #999999;
 }
 
-#pagecontent 
-{
+#pagecontent {
     width: 800px;
 
 }
 
-#pagecontent label 
-{
+#pagecontent label {
   float:left;
   width:20%;
   

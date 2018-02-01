@@ -1,5 +1,8 @@
 CHANGELOG for the Roundcube vacation plugin
 
+Version 20180201
+- upgraded to Roundcube 1.3
+
 Version 2014xxxx
 - [template] Fixed styling for roundcube 0.9.5 and newer
 

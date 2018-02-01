@@ -28,7 +28,7 @@ class Sieve extends VacationDriver {
         public function init() {
             // try to connect to managesieve server and to fetch the script
        
-            $username = Q($this->user->data['username']);
+            $username = rcube::Q($this->user->data['username']);
             $userpass = $this->rcmail->decrypt($_SESSION['password']);
 
 			// Standard plugin

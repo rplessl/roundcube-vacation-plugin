@@ -25,7 +25,7 @@ class setuid extends VacationDriver {
 
         if (!is_executable($this->cfg['executable'])) {
 
-            raise_error(array('code' => 601, 'type' => 'php', 'file' => __FILE__,
+             rcube::raise_error(array('code' => 601, 'type' => 'php', 'file' => __FILE__,
                         'message' => sprintf("Vacation plugin: %s cannot be executed by user '%s'", $this->cfg['executable'], $this->webserver_user)
                     ), true, true);
 
@@ -34,7 +34,7 @@ class setuid extends VacationDriver {
             $fstat = stat($this->cfg['executable']);
 
             if (!$fstat['mode'] & 0004000) {
-                raise_error(array(
+                 rcube::raise_error(array(
                             'code' => 601, 'type' => 'php', 'file' => __FILE__, 'message' => "Vacation plugin: {$this->cfg['executable']} has no setuid bit"
                         ), true, true);
 
@@ -123,7 +123,7 @@ class setuid extends VacationDriver {
         foreach ($deleteFiles as $file) {
             $command = sprintf('%s localhost %s "%s" delete %s %s',
                     $this->cfg['executable'],
-                    Q($this->user->data['username']),
+                    rcube::Q($this->user->data['username']),
                     $this->rcmail->decrypt($_SESSION['password']), $file, $dummy);
             exec($command);
         }
@@ -143,7 +143,7 @@ class setuid extends VacationDriver {
         file_put_contents($localFile, trim($data));
         $command = sprintf('%s localhost %s "%s" put %s %s',
                 $this->cfg['executable'],
-                Q($this->user->data['username']),
+                rcube::Q($this->user->data['username']),
                 $this->rcmail->decrypt($_SESSION['password']), $localFile, $remoteFile);
         exec($command, $resArr, $result);
         unlink($localFile);
@@ -155,7 +155,7 @@ class setuid extends VacationDriver {
         $localFile = tempnam(sys_get_temp_dir(), 'Vac');
         $command = sprintf('%s localhost %s "%s"  get %s %s',
                 $this->cfg['executable'],
-                Q($this->user->data['username']),
+                rcube::Q($this->user->data['username']),
                 $this->rcmail->decrypt($_SESSION['password']), $remoteFile, $localFile);
 
 
@@ -166,7 +166,7 @@ class setuid extends VacationDriver {
         } else {
 
             if (!empty($resArr) && ($resArr[0] == 'Invalid user') || ($resArr[0] == 'Invalid webuser')) {
-                raise_error(array(
+                 rcube::raise_error(array(
                             'code' => 601, 'type' => 'php', 'file' => __FILE__, 'message' => "Vacation plugin: {$this->cfg['executable']} is not configured for user \"{$this->webserver_user}\".<br/> Check config.mk in plugins/vacation/extra/vacation_binary."
                         ), true, true);
             }

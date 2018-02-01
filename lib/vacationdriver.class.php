@@ -114,12 +114,12 @@ public function loadDefaults() {
 	 * @return boolean True on succes, false on failure
 	 */
 	final public function save() {
-		$this->enable = (NULL != get_input_value('_vacation_enabled', RCUBE_INPUT_POST));
-		$this->subject = get_input_value('_vacation_subject', RCUBE_INPUT_POST);
-		$this->body = get_input_value('_vacation_body', RCUBE_INPUT_POST);
-		$this->keepcopy = (NULL != get_input_value('_vacation_keepcopy', RCUBE_INPUT_POST));
-		$this->forward = get_input_value('_vacation_forward', RCUBE_INPUT_POST);
-		$this->aliases = get_input_value('_vacation_aliases', RCUBE_INPUT_POST);
+		$this->enable = (NULL != rcube_utils::get_input_value('_vacation_enabled', rcube_utils::INPUT_POST));
+		$this->subject = rcube_utils::get_input_value('_vacation_subject', rcube_utils::INPUT_POST);
+		$this->body = rcube_utils::get_input_value('_vacation_body', rcube_utils::INPUT_POST);
+		$this->keepcopy = (NULL != rcube_utils::get_input_value('_vacation_keepcopy', rcube_utils::INPUT_POST));
+		$this->forward = rcube_utils::get_input_value('_vacation_forward', rcube_utils::INPUT_POST);
+		$this->aliases = rcube_utils::get_input_value('_vacation_aliases', rcube_utils::INPUT_POST);
 
 		// This method performs the actual work
 		return $this->setVacation();
