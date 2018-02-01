@@ -1,7 +1,7 @@
 {
-    "name": "<your-vendor-name>/vacation",
+    "name": "gabtoth/vacation",
     "type": "roundcube-plugin",
-    "description": "Archive feature for Roundcube",
+    "description": "Vacation, out-of-office and forward feature for Roundcube",
     "keywords": ["mail","vacation","forward"],
     "homepage": "https://github.com/gabor-toth/roundcube-vacation-plugin",
     "license": "GPL-3.0+",
