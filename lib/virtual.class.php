@@ -116,7 +116,9 @@ class Virtual extends VacationDriver {
         } else {
             $sql = "UPDATE {$this->cfg['dbase']}.vacation SET email=?,subject=?,body=?,domain=?,active=?, startDate=NULL, endDate=NULL WHERE email=?";
         }
-
+	if ($this->enable == '') {
+                $this->enable = 0;
+        }
         $this->db->query($sql, 
 	    rcube::Q($this->user->data['username']), 
 	    $this->subject, 
