@@ -108,22 +108,24 @@ class Virtual extends VacationDriver {
 
         // Save vacation message in any case
 
-	// LIMIT date arbitrarily put to next century (vacation.pl doesn't like NULL value)
+	      // LIMIT date arbitrarily put to next century (vacation.pl doesn't like NULL value)
         if (!$update) {
-            $sql = "INSERT INTO vacation ".
+            $sql = "INSERT INTO {$this->cfg['dbase']}.vacation ".
                 "( email, subject, body, cache, domain, created, active, activefrom, activeuntil ) ".
-                "VALUES ( ?, ?, ?, '', ?, NOW(), ?, NOW(), NOW() + interval '100 years' )";
+                "VALUES ( ?, ?, ?, '', ?, NOW(), ?, NOW(), NOW() + INTERVAL + 10 YEAR )";
         } else {
-            $sql = "UPDATE vacation SET email=?,subject=?,body=?,domain=?,active=?, activefrom=NOW(), activeuntil=NOW() + interval '100 years' WHERE email=?";
+            $sql = "UPDATE {$this->cfg['dbase']}.vacation SET email=?,subject=?,body=?,domain=?,active=?, activefrom=NOW(), activeuntil=NOW() + INTERVAL + 10 YEAR WHERE email=?";
         }
-
+	      if ($this->enable == '') {
+            $this->enable = 0;
+        }
         $this->db->query($sql, 
-	    rcube::Q($this->user->data['username']), 
-	    $this->subject, 
-	    $this->body,
-	    $this->domain,
-	    $this->enable ? 'TRUE' : 'FALSE',
-	    rcube::Q($this->user->data['username']));
+	          rcube::Q($this->user->data['username']), 
+	          $this->subject, 
+	          $this->body,
+	          $this->domain,
+	          $this->enable ? 'TRUE' : 'FALSE',
+	          rcube::Q($this->user->data['username']));
         if ($error = $this->db->is_error()) {
             if (strpos($error, "no such field")) {
                 $error = " Configure either domain_lookup_query or use \%d in config.ini's insert_query rather than \%i<br/><br/>";
