@@ -19,7 +19,7 @@ class FTP extends VacationDriver {
 		$userpass = $this->rcmail->decrypt($_SESSION['password']);
 
 		// 15 second time-out
-		if (! $this->ftp = ftp_connect($this->cfg['server'],21,15)) {
+		if (! $this->ftp = ftp_ssl_connect($this->cfg['server'],21,15)) {
 			 rcube::raise_error(array('code' => 601, 'type' => 'php', 'file' => __FILE__,
                 'message' => sprintf("Vacation plugin: Cannot connect to the FTP-server '%s'",$this->cfg['server'])
 			),true, true);
@@ -54,6 +54,11 @@ class FTP extends VacationDriver {
 		if ($dot_vacation_msg = $this->downloadfile($this->dotforward['message'])) {
 			$dot_vacation_msg = explode("\n",$dot_vacation_msg);
 			$vacArr['subject'] = str_replace('Subject: ','',$dot_vacation_msg[1]);
+			unset($dot_vacation_msg[2]);
+			unset($dot_vacation_msg[3]);
+			unset($dot_vacation_msg[4]);
+			$breaks = array("<br />","<br>","<br/>");
+			$dot_vacation_msg=str_ireplace($breaks, "\r\n",$dot_vacation_msg);
 			$vacArr['body'] = join("\n",array_slice($dot_vacation_msg,2));
 		} 
 
@@ -79,10 +84,9 @@ class FTP extends VacationDriver {
 		$this->disable();
 
 		$d = new DotForward;
-		$d->mergeOptions($this->dotforward);
 		// Enable auto-reply?
 		if ($this->enable) {
-
+			$d->mergeOptions($this->dotforward);
 
 			$email = $this->identity['email'];
 
@@ -95,21 +99,22 @@ class FTP extends VacationDriver {
 
 			// Create the .vacation.message file
 
-			$full_name = $this->identity['name'];
+			$full_name = iconv("UTF-8","ASCII//TRANSLIT",$this->identity['name']);
 
 			if (!empty($full_name)) {
 				$vacation_header = sprintf("From: %s <%s>\n",$full_name,$email);
 			} else {
 				$vacation_header = sprintf("From: %s\n",$email);
 			}
-			$vacation_header .= sprintf("Subject: %s\n\n",$this->subject);
-			$message = $vacation_header.$this->body;
+			$vacation_header .= sprintf("Subject: %s\n",$this->subject);
+			$vacation_header .= sprintf("MIME-Version: %s\nContent-Type: %s\nContent-Transfer-Encoding: %s\n\n","1.0","text/html; charset=\"UTF-8\"","8bit");
+			$message = $vacation_header.preg_replace('/\r\n?/', "<br/>",$this->body);
 			$this->uploadfile($message,$this->dotforward['message']);
 
 		}
 		$d->setOption("username",$this->user->data['username']);
+		$d->setOption("keepcopy",$this->keepcopy);
 		$d->setOption("forward",$this->forward);
-                $d->setOption("keepcopy",$this->keepcopy);
 
 		// Do we even need to upload a .forward file?
 		if ($this->keepcopy || $this->enable || $this->forward != "")

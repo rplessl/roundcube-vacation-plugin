@@ -19,7 +19,7 @@ if (window.rcmail) {
 	    	rcmail.http_post('plugin.vacation_aliases','a=1');
 	    }, true);
   
-     var tab = $('<span>').attr('id', 'settingstabpluginvacation').addClass('tablink');
+     var tab = $('<li>').attr('id', 'settingstabpluginvacation').addClass('listitem preferences');
     rcmail.add_element(tab, 'tabs');
 
     var button = $('<a>').attr('href', rcmail.env.comm_path+'&_action=plugin.vacation').html(rcmail.gettext('vacation.vacation')).appendTo(tab);
