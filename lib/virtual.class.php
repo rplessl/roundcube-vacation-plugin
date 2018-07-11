@@ -48,10 +48,9 @@ class Virtual extends VacationDriver {
         //   print_r($vacArr);
         $fwdArr = $this->virtual_alias();
 
-        $sql = sprintf("SELECT subject,body,active FROM %s.vacation WHERE email='%s'",
-                $this->cfg['dbase'], rcube::Q($this->user->data['username']));
+        $sql = sprintf("SELECT subject,body,active FROM vacation WHERE email='%s'",
+                rcube::Q($this->user->data['username']));
 
-		
         $res = $this->db->query($sql);
         if ($error = $this->db->is_error()) {
             rcube::raise_error(array('code' => 601, 'type' => 'db', 'file' => __FILE__,
@@ -64,7 +63,7 @@ class Virtual extends VacationDriver {
             $vacArr['body'] = $row['body'];
             $vacArr['subject'] = $row['subject'];
             //$vacArr['enabled'] = ($row['active'] == 1) && ($fwdArr['enabled'] == 1);
-            $vacArr['enabled'] = ($row['active'] == 1);
+            $vacArr['enabled'] = $row['active'];
         }
 
 
@@ -84,7 +83,7 @@ class Virtual extends VacationDriver {
         // Sets class property
         $this->domain_id = $this->domainLookup();
 
-        $sql = sprintf("UPDATE %s.vacation SET created=now(),active=0 WHERE email='%s'", $this->cfg['dbase'], rcube::Q($this->user->data['username']));
+        $sql = sprintf("UPDATE vacation SET created=now(),active=FALSE WHERE email='%s'", rcube::Q($this->user->data['username']));
 
 
         $this->db->query($sql);
@@ -109,23 +108,24 @@ class Virtual extends VacationDriver {
 
         // Save vacation message in any case
 
+	      // LIMIT date arbitrarily put to next century (vacation.pl doesn't like NULL value)
         if (!$update) {
             $sql = "INSERT INTO {$this->cfg['dbase']}.vacation ".
                 "( email, subject, body, cache, domain, created, active, activefrom, activeuntil ) ".
-                "VALUES ( ?, ?, ?, '', ?, NOW(), ?, NOW(),NOW() + INTERVAL + 10 YEAR )";
+                "VALUES ( ?, ?, ?, '', ?, NOW(), ?, NOW(), NOW() + INTERVAL + 10 YEAR )";
         } else {
             $sql = "UPDATE {$this->cfg['dbase']}.vacation SET email=?,subject=?,body=?,domain=?,active=?, activefrom=NOW(), activeuntil=NOW() + INTERVAL + 10 YEAR WHERE email=?";
         }
-	if ($this->enable == '') {
-                $this->enable = 0;
+	      if ($this->enable == '') {
+            $this->enable = 0;
         }
         $this->db->query($sql, 
-	    rcube::Q($this->user->data['username']), 
-	    $this->subject, 
-	    $this->body, 
-	    $this->domain,
-	    $this->enable,
-	    rcube::Q($this->user->data['username']));
+	          rcube::Q($this->user->data['username']), 
+	          $this->subject, 
+	          $this->body,
+	          $this->domain,
+	          $this->enable ? 'TRUE' : 'FALSE',
+	          rcube::Q($this->user->data['username']));
         if ($error = $this->db->is_error()) {
             if (strpos($error, "no such field")) {
                 $error = " Configure either domain_lookup_query or use \%d in config.ini's insert_query rather than \%i<br/><br/>";
@@ -178,9 +178,10 @@ class Virtual extends VacationDriver {
 	 * @return string SQL query with substituted parameters
     */
     private function translate($query) {
+	// vacation.pl assume that people won't use # as a valid mailbox character
         return str_replace(array('%e', '%d', '%i', '%g', '%f', '%m'),
                 array($this->user->data['username'], $this->domain, $this->domain_id,
-                    rcube::Q($this->user->data['username']) . "@" . $this->cfg['transport'], $this->forward, $this->cfg['dbase']), $query);
+                    rcube::Q(str_replace('@', '#', $this->user->data['username'])) . "@" . $this->cfg['transport'], $this->forward, $this->cfg['dbase']), $query);
     }
 
 // Sets %i. Lookup the domain_id based on the domainname. Returns the domainname if the query is empty
@@ -241,7 +242,8 @@ class Virtual extends VacationDriver {
     private function virtual_alias() {
         $forward = "";
         $enabled = false;
-        $goto = rcube::Q($this->user->data['username']) . "@" . $this->cfg['transport'];
+	// vacation.pl assume that people won't use # as a valid mailbox character
+        $goto = rcube::Q(str_replace('@', '#', $this->user->data['username'])) . "@" . $this->cfg['transport'];
 
         // Backwards compatiblity. Since >=1.6 this is no longer needed
         $sql = str_replace("='%g'", "<>''", $this->cfg['select_query']);
