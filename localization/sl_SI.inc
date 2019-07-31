@@ -1,6 +1,6 @@
 <?php
 $labels = array();
-$labels['aliases'] = 'Aliasi';
+$labels['aliases'] = 'Dodatni elektronski naslovi (aliasi) za odgovor';
 $labels['autoreply'] = "Vključi samodejni odgovor";
 $labels['autoreplybutton'] = 'Shrani';
 $labels['autoreplymessage'] = 'Sporočilo samodejnega odgovora';
