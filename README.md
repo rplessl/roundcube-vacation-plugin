@@ -1,9 +1,10 @@
 roundcube-vacation-2.x
 ======================
 
-**UNMAINTAINED** 
-
 vacation / out-of-office plugin for RoundCube
+
+This code is **UNMAINTAINED**!!! Please fork and take new ownership. 
+
 
 About
 -----
