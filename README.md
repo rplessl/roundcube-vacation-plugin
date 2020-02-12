@@ -3,6 +3,8 @@ roundcube-vacation-2.x
 
 vacation / out-of-office plugin for RoundCube
 
+TAKE OVER MAINTAINERSHIP
+------------------------
 This code is **UNMAINTAINED**!!! Please fork and take new ownership. 
 
 
