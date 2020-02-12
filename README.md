@@ -1,6 +1,8 @@
 roundcube-vacation-2.x
 ======================
 
+**UNMAINTAINED** 
+
 vacation / out-of-office plugin for RoundCube
 
 About
@@ -227,12 +229,9 @@ Credits
 
 patches, feedback and suggestions
 --------------------------------
-Please submit patches and suggestions here in this github repository
-https://github.com/rplessl/roundcube-vacation-2.x
+**UNMAINTAINED** 
 
-or the the original author
+I (Roman) lost my interesstes in using roundcube as web-email cause I am not developing roundcube for our customers of nine.ch (I left the company) and using another technology for my own email. 
 
-Please submit patches and suggestions by e-mail (jaspersl @ gmail . com). 
-Project URL: https://sourceforge.net/projects/rcubevacation/ 
-Feedback is always welcome.
+Please submit patches and suggestions *not* in this github repository
 
