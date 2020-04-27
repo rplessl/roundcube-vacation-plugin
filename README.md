@@ -3,9 +3,17 @@ roundcube-vacation-2.x
 
 vacation / out-of-office plugin for RoundCube
 
+
+WORKING VERSION:
+----------------
+@bukowski12 seems to have a working version of roundcube-vacation-plugin for roundcube 1.4.x
+
+https://github.com/bukowski12/roundcube-vacation-plugin
+
+
 TAKE OVER MAINTAINERSHIP
 ------------------------
-This code is **UNMAINTAINED**!!! Please fork and take new ownership. 
+My code is **UNMAINTAINED**. See obove link for better version
 
 
 About
